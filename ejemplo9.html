@@ -37,6 +37,7 @@
         <!-- checkboxes para activar/desactivar las capas -->
         <input type="checkbox" id="check_layer_1"><label for="check_layer_1"> Red Vial</label><br />
         <input type="checkbox" id="check_layer_2"><label for="check_layer_2"> Provincias</label><br />
+        <input type="checkbox" id="check_layer_3"><label for="check_layer_3"> Edif Religiosos</label><br />
 
 
         <!-- Radio buttons para cambiar las interacciones activas -->
@@ -125,6 +126,17 @@
                 }
             })
         });
+        var edif_religiosos = new ol.layer.Image({
+            title: "Edif Religiosos",
+            //capa desactivada por defecto
+            visible: false,
+            source: new ol.source.ImageWMS({
+                url: URL_OGC,
+                params: {
+                    LAYERS: 'edif_religiosos'
+                }
+            })
+        });
         var map = new ol.Map({
             target: 'map',
             layers: [
@@ -142,6 +154,7 @@
                 pais_lim,
                 provincias,
                 red_vial,
+                edif_religiosos,
                 //agregi ka caoa vectorial
                 //vectorLayer
 
@@ -240,7 +253,7 @@
 
         //visibilidad de las capas
 
-        pais_lim.setVisible(1);
+        //pais_lim.setVisible(1);
 
         //obtengo una referencia al elemento HTML
         var checkbox1 = document.getElementById('check_layer_1');
@@ -279,20 +292,20 @@
             }
         });
 
-        // var checkbox3 = document.getElementById('check_layer_3');
-        // checkbox3.addEventListener('change', function () {
-        //     var checked = this.checked;
-        //     if (checked !== veg_arbo.getVisible()) {
-        //         veg_arbo.setVisible(checked);
-        //     }
-        // });
+        var checkbox3 = document.getElementById('check_layer_3');
+        checkbox3.addEventListener('change', function () {
+            var checked = this.checked;
+            if (checked !== edif_religiosos.getVisible()) {
+                edif_religiosos.setVisible(checked);
+            }
+        });
 
-        // veg_arbo.on('change:visible', function () {
-        //     var visible = this.getVisible();
-        //     if (visible !== checkbox3.checked) {
-        //         checkbox3.checked = visible;
-        //     }
-        // });
+        edif_religiosos.on('change:visible', function () {
+            var visible = this.getVisible();
+            if (visible !== checkbox3.checked) {
+                checkbox3.checked = visible;
+            }
+        });
 
         // var checkbox4 = document.getElementById('check_layer_4');
         // checkbox4.addEventListener('change', function () {
