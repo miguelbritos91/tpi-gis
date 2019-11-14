@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="v6.0.1/css/ol.css" type="text/css">
+    <style>
+        #map {
+            height: 90vh;
+            width: 75%;
+            float: left;
+        }
+
+        #panel {
+            height: 90vh;
+            width: 25%;
+            float: right;
+            background-color: #EEE;
+        }
+    </style>
+    <title>OpenLayers 6 example</title>
+    
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+
+<body>
+
+    <h1>My Map</h1>
+
+    <!-- DIV que contiene el mapa -->
+    <div id="map"></div>
+
+    <div id="panel">
+        <h3>Capas</h3>
+        <!-- checkboxes para activar/desactivar las capas -->
+        <input type="checkbox" id="check_layer_1"><label for="check_layer_1"> Red Vial</label><br />
+        <input type="checkbox" id="check_layer_2"><label for="check_layer_2"> Provincias</label><br />
+        <input type="checkbox" id="check_layer_3"><label for="check_layer_3"> Edif Religiosos</label><br />
+
+
+        <!-- Radio buttons para cambiar las interacciones activas -->
+        <h3>Controles</h3>
+        <!-- evento onchange: ejecuta la funcion seleccionarControl -->
+        <input type="radio" name="controles" id="controles_navegacion" value="navegacion" checked="checked"
+            onchange="seleccionarControl(this)"> <label for="controles_navegacion"> Navegacion</label><br />
+        <input type="radio" name="controles" id="controles_consulta" value="consulta"
+            onchange="seleccionarControl(this)"> <label for="controles_consulta"> Consulta</label><br />
+
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="v6.0.1/build/ol.js" type="text/javascript"></script>
+    <script src="url.js" type="text/javascript"></script>
+    <!--agregamos la libreria JQuery -->
+    <script src="jquery.min.js" type="text/javascript"></script>
+
+    <!-- SCRIPT que crea el mapa y sus capas -->
+    <script type="text/javascript">
+        //creo un source de tipo Vector
+        var vectorSource = new ol.source.Vector({
+            //formato de los datos a consumir
+            format: new ol.format.GeoJSON(),
+            //url del archivo o script que genera el GeoJSON
+            url: 'espejos_de_agua.geojson'
+        });
+
+        //creo una capa de tipo vector
+        var vectorLayer = new ol.layer.Vector({
+            //asigno el source
+            source: vectorSource,
+            visible: false,
+
+            //estilo
+            style: new ol.style.Style({
+                //relleno (solo si hay poligonos)
+                fill: new ol.style.Fill({
+                    color: 'rgba(255, 204, 51, 0.4)'
+                }),
+                //trazo (para poligonos y lineas)
+                stroke: new ol.style.Stroke({
+                    color: '#ffcc33',
+                    width: 2
+                }),
+                //image: para puntos
+                image: new ol.style.Circle({
+                    radius: 7, //radio en pixeles
+                    //relleno
+                    fill: new ol.style.Fill({
+                        color: '#ffcc33'
+                    }),
+                    //trazo
+                    stroke: new ol.style.Stroke({
+                        color: '#000000',
+                        width: 1
+                    })
+                })
+            })
+        });
+
+        var pais_lim = new ol.layer.Image({
+            title: "Provincias",
+            //capa desactivada por defecto
+            visible: false,
+            source: new ol.source.ImageWMS({
+                url: URL_OGC,
+                params: {
+                    LAYERS: 'pais_lim'
+                }
+            })
+        });
+        var provincias = new ol.layer.Image({
+            title: "Provincias",
+            //capa desactivada por defecto
+            visible: false,
+            source: new ol.source.ImageWMS({
+                url: URL_OGC,
+                params: {
+                    LAYERS: 'provincias'
+                }
+            })
+        });
+        var red_vial = new ol.layer.Image({
+            title: "Red Vial",
+            //capa desactivada por defecto
+            visible: false,
+            source: new ol.source.ImageWMS({
+                url: URL_OGC,
+                params: {
+                    LAYERS: 'red_vial'
+                }
+            })
+        });
+        var edif_religiosos = new ol.layer.Image({
+            title: "Edif Religiosos",
+            //capa desactivada por defecto
+            visible: false,
+            source: new ol.source.ImageWMS({
+                url: URL_OGC,
+                params: {
+                    LAYERS: 'edif_religiosos'
+                }
+            })
+        });
+        var map = new ol.Map({
+            target: 'map',
+            layers: [
+                new ol.layer.Tile({
+                    title: "Natural Earth Base Map",
+                    source: new ol.source.TileWMS({
+                        url: 'http://wms.ign.gob.ar/geoserver/wms',
+                        params: {
+                            LAYERS: 'capabaseargenmap',
+                            VERSION: '1.1.1'
+                        }
+                    })
+                }),
+                //listado de capas WMS
+                pais_lim,
+                provincias,
+                red_vial,
+                edif_religiosos,
+                //agregi ka caoa vectorial
+                //vectorLayer
+
+            ],
+            view: new ol.View({
+                projection: 'EPSG:4326',
+                center: [-59, -27.5],
+                zoom: 4
+
+            })
+        });
+
+
+
+        //function que va a realizar la peticion de la consulta
+        var consultar = function (coordinate) {
+
+
+            console.log(coordinate);
+            if (coordinate.length == 2) {
+                //es un punto [lon,lat]
+                var wkt = 'POINT(' + coordinate[0] + ' ' + coordinate[1] + ')';
+            } else {
+                //es un poligono en la forma [ [ [lon,lat],[lon,lat],....] ]
+                var wkt = 'POLYGON((';
+                for (var i = 0; i < coordinate[0].length - 1; i++) {
+                    wkt += coordinate[0][i][0] + ' ' + coordinate[0][i][1] + ',';
+                }
+                wkt += coordinate[0][0][0] + ' ' + coordinate[0][0][1] + '))'
+            }
+            console.log(wkt);
+            window.open('consulta.php?wkt=' + wkt);
+            return;
+
+            jQuery.ajax({
+                url:'consulta.php',
+                method: 'GET',
+                data:{
+                    wkt:wkt
+                },
+                success:function(data){
+                    console.log(data);
+                }
+            });
+
+
+
+        };
+
+
+        var selectInteraction = new ol.interaction.DragBox({
+            condition: ol.events.condition.always, //noModifierKeys
+            style: new ol.style.Style({
+                stroke: new ol.style.Stroke({
+                    color: [0, 0, 255, 1]
+                })
+            })
+        });
+
+
+        selectInteraction.on('boxend', function (evt) {
+            //this: referencia al selectInteraction
+            console.log('boxend', this.getGeometry().getCoordinates());
+            consultar(selectInteraction.getGeometry().getCoordinates());
+
+        });
+
+        //funcion para el evento click en el mapa
+        var clickEnMapa = function (evt) {
+            //muestro por consola las coordenadas del evento
+            console.log('click', evt.coordinate);
+            consultar(evt.coordinate);
+        };
+
+
+
+        //function para "cambiar" de interaction en function del value de los radios
+        var seleccionarControl = function (el) {
+            if (el.value == "consulta") {
+                //agrego la interaccion del dragbox
+                //la cual tiene precedencia sobre las otras
+                map.addInteraction(selectInteraction);
+
+                //subscribo una funcion al evento click del mapa
+                map.on('click', clickEnMapa);
+
+            } else if (el.value == "navegacion") {
+                //la remuevo...
+                map.removeInteraction(selectInteraction);
+                //remueveo la subscripcion de la funcion al evento click del mapa
+                map.un('click', clickEnMapa);
+            }
+            //muestro por consola el valor
+            console.log(el.value);
+        };
+
+        //visibilidad de las capas
+
+        pais_lim.setVisible(1);
+
+        //obtengo una referencia al elemento HTML
+        var checkbox1 = document.getElementById('check_layer_1');
+        //agrego un listener al evento change del checkbox
+        checkbox1.addEventListener('change', function () {
+            var checked = this.checked;
+            //seteo la propiedad "visible" de mi capa en función al valor
+            if (checked !== red_vial.getVisible()) {
+                red_vial.setVisible(checked);
+            }
+        });
+
+        //agrego un listener al evento change de la
+        //propiedad "visible" de la capa
+        red_vial.on('change:visible', function () {
+            var visible = this.getVisible();
+            //seteo el valor del checkbox
+            if (visible !== checkbox1.checked) {
+                checkbox1.checked = visible;
+            }
+        });
+
+
+        var checkbox2 = document.getElementById('check_layer_2');
+        checkbox2.addEventListener('change', function () {
+            var checked = this.checked;
+            if (checked !== provincias.getVisible()) {
+                provincias.setVisible(checked);
+            }
+        });
+
+        provincias.on('change:visible', function () {
+            var visible = this.getVisible();
+            if (visible !== checkbox2.checked) {
+                checkbox2.checked = visible;
+            }
+        });
+
+        var checkbox3 = document.getElementById('check_layer_3');
+        checkbox3.addEventListener('change', function () {
+            var checked = this.checked;
+            if (checked !== edif_religiosos.getVisible()) {
+                edif_religiosos.setVisible(checked);
+            }
+        });
+
+        edif_religiosos.on('change:visible', function () {
+            var visible = this.getVisible();
+            if (visible !== checkbox3.checked) {
+                checkbox3.checked = visible;
+            }
+        });
+
+        // var checkbox4 = document.getElementById('check_layer_4');
+        // checkbox4.addEventListener('change', function () {
+        //     var checked = this.checked;
+        //     if (checked !== vectorLayer.getVisible()) {
+        //         vectorLayer.setVisible(checked);
+        //     }
+        // });
+
+        // vectorLayer.on('change:visible', function () {
+        //     var visible = this.getVisible();
+        //     if (visible !== checkbox4.checked) {
+        //         checkbox4.checked = visible;
+        //     }
+        // });
+    </script>
+</body>
+
+</html>
