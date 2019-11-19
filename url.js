@@ -1,1 +1,1 @@
-var URL_OGC = '/cgi-bin/qgis_mapserv.fcgi?map=/home/user/tpiserver.qgz'
+var URL_OGC = 'http://192.168.0.19/cgi-bin/qgis_mapserv.fcgi?map=/home/user/tpiserver.qgz'
