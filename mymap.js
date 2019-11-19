@@ -269,3 +269,4 @@ edif_religiosos.on('change:visible', function () {
         //         checkbox4.checked = visible;
         //     }
         // });
+        //aca creo que falta un par de cosas de los checkbox
