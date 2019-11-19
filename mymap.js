@@ -1,18 +1,7 @@
-var pais_lim = new ol.layer.Image({
-    title: "Provincias",
-    //capa desactivada por defecto
-    visible: false,
-    source: new ol.source.ImageWMS({
-        url: URL_OGC,
-        params: {
-            LAYERS: 'pais_lim'
-        }
-    })
-});
 var provincias = new ol.layer.Image({
     title: "Provincias",
-    //capa desactivada por defecto
-    visible: false,
+    //capa activada por defecto
+    visible: true,
     source: new ol.source.ImageWMS({
         url: URL_OGC,
         params: {
@@ -57,13 +46,11 @@ var map = new ol.Map({
             })
         }),
         //listado de capas WMS
-        pais_lim,
         provincias,
         red_vial,
         edif_religiosos,
         //agregi ka caoa vectorial
         //vectorLayer
-
     ],
     view: new ol.View({
         projection: 'EPSG:4326',
@@ -74,10 +61,8 @@ var map = new ol.Map({
 });
 
 
-
 //function que va a realizar la peticion de la consulta
 var consultar = function (coordinate) {
-
 
     console.log(coordinate);
     if (coordinate.length == 2) {
@@ -176,20 +161,23 @@ var tipoDraw = function(t){
     if(t.value == 'punto'){
         map.removeInteraction(lineDraw);
         map.addInteraction(pointDraw);
+        $('#controlesLinea').addClass('d-none')
+        $('#controlesLinea').removeClass('d-block')
     }else if(t.value == 'linea'){
         map.removeInteraction(pointDraw);
         clearCustomInteractions();
         map.addInteraction(lineDraw);
         lineDraw.on('drawend', function(e) {
 			generateWkt();
-		});
+        });
+        $('#controlesLinea').addClass('d-block')
+        $('#controlesLinea').removeClass('d-none')
     }
     console.log(t.value)
 };
 
 //visibilidad de las capas
 
-//pais_lim.setVisible(1);
 
 //obtengo una referencia al elemento HTML
 var checkbox1 = document.getElementById('check_layer_1');
@@ -213,20 +201,20 @@ red_vial.on('change:visible', function () {
 });
 
 
-var checkbox2 = document.getElementById('check_layer_2');
-checkbox2.addEventListener('change', function () {
-    var checked = this.checked;
-    if (checked !== provincias.getVisible()) {
-        provincias.setVisible(checked);
-    }
-});
+// var checkbox2 = document.getElementById('check_layer_2');
+// checkbox2.addEventListener('change', function () {
+//     var checked = this.checked;
+//     if (checked !== provincias.getVisible()) {
+//         provincias.setVisible(checked);
+//     }
+// });
 
-provincias.on('change:visible', function () {
-    var visible = this.getVisible();
-    if (visible !== checkbox2.checked) {
-        checkbox2.checked = visible;
-    }
-});
+// provincias.on('change:visible', function () {
+//     var visible = this.getVisible();
+//     if (visible !== checkbox2.checked) {
+//         checkbox2.checked = visible;
+//     }
+// });
 
 var checkbox3 = document.getElementById('check_layer_3');
 checkbox3.addEventListener('change', function () {

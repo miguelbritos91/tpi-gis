@@ -49,3 +49,12 @@
   .ol-tooltip-static:before {
     border-top-color: #ffcc33;
   }
+
+  #wkt{
+    position: absolute;
+    top: 10px;
+    left: 60px;
+    max-height: 70px;
+    overflow-y: scroll;
+    background: #ffffff;
+  }

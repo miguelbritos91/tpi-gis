@@ -31,6 +31,7 @@
             <div class="col-md-8 col-lg-10">
                 <!-- DIV que contiene el mapa -->
                 <div id="map"></div>
+                <div id="wkt"></div>
             </div>
             <div class="col-md-4 col-lg-2">
                 <div id="panel">
@@ -51,8 +52,8 @@
                                     <!-- checkboxes para activar/desactivar las capas -->
                                     <input type="checkbox" id="check_layer_1"><label for="check_layer_1"> Red
                                         Vial</label><br />
-                                    <input type="checkbox" id="check_layer_2"><label for="check_layer_2">
-                                        Provincias</label><br />
+                                    <!-- <input type="checkbox" id="check_layer_2"><label for="check_layer_2">
+                                        Provincias</label><br /> -->
                                     <input type="checkbox" id="check_layer_3"><label for="check_layer_3"> Edif
                                         Religiosos</label><br />
                                 </div>
@@ -81,14 +82,19 @@
                                         Consulta</label><br />
                                     <input type="radio" name="controles" id="controles_medida" value="medida"
                                         onchange="seleccionarControl(this)"> <label for="controles_medida">
-                                        Medida</label><br />
+                                        Dibujar</label><br />
                                         <!-- selecciona el tipo de mensura -->
-                                        <select id="type" class="d-none" onchange="tipoDraw(this)">
+                                        <select id="type" class="d-none form-control" onchange="tipoDraw(this)">
                                             <option value="null">Select</option>
                                             <option value="punto">Punto</option>
                                             <option value="linea">Linea</option>
                                         </select>
-                                        <input type="text" id="coordenadas" class="form-control">
+                                        <div class="row d-none" id="controlesLinea">
+                                            <div class="col-12 text-center">
+                                                <button class="btn btn-primary m-1" id="editLine" onclick="editLine()">Editar Linea</button>
+                                                <button class="btn btn-danger m-1" id="eraseLine" onclick="eraseLine()">Borrar Linea</button>
+                                            </div>
+                                        </div>
                                 </div>
                             </div>
                         </div>
@@ -99,7 +105,7 @@
     </div>
 
 
-    <script src="jquery-3.3.1.slim.min.js"></script>
+    <script src="jquery.min.js"></script>
     <script src="popper.min.js"></script>
     <script src="bootstrap.min.js"></script>
     <script src="v6.0.1/build/ol.js" type="text/javascript"></script>

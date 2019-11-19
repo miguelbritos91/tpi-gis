@@ -1,11 +1,16 @@
 var source = new ol.source.Vector();
 
 var layer = new ol.layer.Vector({
+    title: "Multilineas",
+    visible: true,
     source: source
 });
 
+map.addLayer(layer);
+
+var select = new ol.interaction.Select();
 var erase = new ol.interaction.Select();
-	var wkt = new ol.format.WKT();
+var wkt = new ol.format.WKT();
 
 var lineDraw = new ol.interaction.Draw({
     source: source,
@@ -30,9 +35,11 @@ var modify = new ol.interaction.Modify({
 //     });
 // });
 
-$('#editLine').click(function() {
+function editLine() {
+    console.log('Editar Linea');
     clearCustomInteractions();
     $(this).addClass('active');
+    map.removeInteraction(erase);
     map.addInteraction(select);
     map.addInteraction(modify);
 
@@ -44,11 +51,14 @@ $('#editLine').click(function() {
     });
 
     return false;
-});
+};
 
-$('#eraseLine').click(function() {
+function eraseLine() {
+    console.log('Borrar Linea');
     clearCustomInteractions();
     $(this).addClass('active');
+    map.removeInteraction(modify);
+    map.addInteraction(select);
     map.addInteraction(erase);
 
     erase.getFeatures().on('change:length', function(e) {
@@ -59,9 +69,7 @@ $('#eraseLine').click(function() {
     });
 
     return false;
-});
-
-map.addLayer(layer);
+};
 
 function clearCustomInteractions() {
     // $('#bar').find('p').removeClass('active');
