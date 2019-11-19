@@ -135,31 +135,7 @@ var clickEnMapa = function (evt) {
     consultar(evt.coordinate);
 };
 
-// variables y functiones para que se pueda dibujar un punto
 
-            var pointDraw;
-            var vectorSource = new ol.source.Vector();
-            var coordenadas = $('#coordenadas')
-
-            var vectorLayer = new ol.layer.Vector({
-                source: vectorSource
-            });
-
-            map.addLayer(vectorLayer);
-
-            pointDraw = new ol.interaction.Draw({
-                source: vectorSource,
-                type: 'Point'
-            });
-
-            pointDraw.on('drawend', function(e){
-                var feature = e.feature;
-                vectorSource.clear();
-                vectorSource.addFeature(feature);
-                var latLong = feature.getGeometry().getCoordinates();
-                console.log(latLong);
-                coordenadas.text(ol.coordinate.toStringHDMS(ol.proj.transform(latLong, 'EPSG:4326')));
-            });
 
 //function para "cambiar" de interaction en function del value de los radios
 var seleccionarControl = function (el) {
@@ -168,6 +144,7 @@ var seleccionarControl = function (el) {
         //la cual tiene precedencia sobre las otras
         map.addInteraction(selectInteraction);
         map.removeInteraction(pointDraw)
+        map.removeInteraction(lineDraw)
 
         //subscribo una funcion al evento click del mapa
         map.on('click', clickEnMapa);
@@ -179,29 +156,40 @@ var seleccionarControl = function (el) {
         //la remuevo...
         map.removeInteraction(selectInteraction);
         map.removeInteraction(pointDraw)
+        map.removeInteraction(lineDraw)
         //remueveo la subscripcion de la funcion al evento click del mapa
-        map.un('click', clickEnMapa);
+        //map.on('click', clickEnMapa);
         let optMedida = document.getElementById("type")
         optMedida.classList.remove('d-block')
         optMedida.classList.add('d-none')
     } else if (el.value == "medida") {
         //la remuevo...
         map.removeInteraction(selectInteraction);
-        //remueveo la subscripcion de la funcion al evento click del mapa
-        map.un('click', clickEnMapa);
-        console.log('cargar mensura')
         var optMedida = document.getElementById("type")
         optMedida.classList.add('d-block')
-
-        map.addInteraction(pointDraw);
     }
     //muestro por consola el valor
     console.log(el.value);
 };
 
+var tipoDraw = function(t){
+    if(t.value == 'punto'){
+        map.removeInteraction(lineDraw);
+        map.addInteraction(pointDraw);
+    }else if(t.value == 'linea'){
+        map.removeInteraction(pointDraw);
+        clearCustomInteractions();
+        map.addInteraction(lineDraw);
+        lineDraw.on('drawend', function(e) {
+			generateWkt();
+		});
+    }
+    console.log(t.value)
+};
+
 //visibilidad de las capas
 
-pais_lim.setVisible(1);
+//pais_lim.setVisible(1);
 
 //obtengo una referencia al elemento HTML
 var checkbox1 = document.getElementById('check_layer_1');
