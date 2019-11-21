@@ -270,6 +270,6 @@ function medir(e) {
     addInteraction();
 }
 
-function endMedir(){
-    map.removeInteraction(draw)
+function endMedir() {
+    return false
 }
