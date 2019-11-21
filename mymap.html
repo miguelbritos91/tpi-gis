@@ -24,7 +24,6 @@
                         <button class="btn btn-primary float-right mt-2" onClick="document.location.reload(true)">Reload</button>
                     </div>
                 </div>
-                
             </div>
         </div>
         <div class="row">
@@ -83,18 +82,31 @@
                                     <input type="radio" name="controles" id="controles_medida" value="medida"
                                         onchange="seleccionarControl(this)"> <label for="controles_medida">
                                         Dibujar</label><br />
-                                        <!-- selecciona el tipo de mensura -->
-                                        <select id="type" class="d-none form-control" onchange="tipoDraw(this)">
-                                            <option value="null">Select</option>
-                                            <option value="punto">Punto</option>
-                                            <option value="linea">Linea</option>
-                                        </select>
-                                        <div class="row d-none" id="controlesLinea">
-                                            <div class="col-12 text-center">
-                                                <button class="btn btn-primary m-1" id="editLine" onclick="editLine()">Editar Linea</button>
-                                                <button class="btn btn-danger m-1" id="eraseLine" onclick="eraseLine()">Borrar Linea</button>
-                                            </div>
+                                    <!-- selecciona el tipo de mensura -->
+                                    <select id="type" class="d-none form-control" onchange="tipoDraw(this)">
+                                        <option value="null">Select</option>
+                                        <option value="punto">Punto</option>
+                                        <option value="linea">Linea</option>
+                                        <option value="poligono">Poligono</option>
+                                    </select>
+                                    <div class="row d-none" id="controlesLinea">
+                                        <div class="col-12 text-center">
+                                            <button class="btn btn-primary m-1" id="editLine" onclick="editLine()">Editar Linea</button>
+                                            <button class="btn btn-danger m-1" id="eraseLine" onclick="eraseLine()">Borrar Linea</button>
                                         </div>
+                                    </div>
+                                    <div class="row d-none" id="controlesPoligono">
+                                        <div class="col-12 text-center">
+                                            <button class="btn btn-primary m-1" id="editPolygon" onclick="editPolygon()">Editar Poligono</button>
+                                            <button class="btn btn-danger m-1" id="erasePolygon" onclick="erasePolygon()">Borrar Poligono</button>
+                                        </div>
+                                    </div>
+                                    <div class="row d-none" id="controlesPunto">
+                                        <div class="col-12 text-center">
+                                            <button class="btn btn-primary m-1" id="editPoint" onclick="editPoint()">Editar Punto</button>
+                                            <button class="btn btn-danger m-1" id="erasePoint" onclick="erasePoint()">Borrar Punto</button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -113,8 +125,9 @@
 
     <!-- SCRIPT que crea el mapa y sus capas -->
     <script src="mymap.js" type="text/javascript"></script>
-    <script src="draw.js"></script>
+    <script src="pointDraw.js"></script>
     <script src="lineDraw.js"></script>
+    <script src="polygonDraw.js"></script>
 </body>
 
 </html>

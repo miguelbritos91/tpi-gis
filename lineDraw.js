@@ -1,19 +1,19 @@
-var source = new ol.source.Vector();
+var sourceline = new ol.source.Vector();
 
-var layer = new ol.layer.Vector({
+var layerline = new ol.layer.Vector({
     title: "Multilineas",
     visible: true,
-    source: source
+    source: sourceline
 });
 
-map.addLayer(layer);
+map.addLayer(layerline);
 
 var select = new ol.interaction.Select();
 var erase = new ol.interaction.Select();
 var wkt = new ol.format.WKT();
 
 var lineDraw = new ol.interaction.Draw({
-    source: source,
+    source: sourceline,
     type: 'LineString'
 });
 
@@ -37,7 +37,7 @@ var modify = new ol.interaction.Modify({
 
 function editLine() {
     console.log('Editar Linea');
-    clearCustomInteractions();
+    map.removeInteraction(lineDraw);
     $(this).addClass('active');
     map.removeInteraction(erase);
     map.addInteraction(select);
@@ -46,7 +46,7 @@ function editLine() {
     select.getFeatures().on('add', function(e) {
         var feature = e.element;
         feature.on('change', function(e) {
-            generateWkt();
+            generateWktLine();
         });
     });
 
@@ -55,7 +55,7 @@ function editLine() {
 
 function eraseLine() {
     console.log('Borrar Linea');
-    clearCustomInteractions();
+    map.removeInteraction(lineDraw);
     $(this).addClass('active');
     map.removeInteraction(modify);
     map.addInteraction(select);
@@ -63,24 +63,21 @@ function eraseLine() {
 
     erase.getFeatures().on('change:length', function(e) {
         if(e.target.getArray().length !== 0) {
-            layer.getSource().removeFeature(e.target.item(0));
-            generateWkt();
+            layerline.getSource().removeFeature(e.target.item(0));
+            generateWktLine();
         }
     });
 
     return false;
 };
 
-function clearCustomInteractions() {
-    // $('#bar').find('p').removeClass('active');
-    map.removeInteraction(lineDraw);
-}
 
-function generateWkt() {
+
+function generateWktLine() {
     var featureWkt, modifiedWkt;
     var unionFeatures = [];
 
-    layer.getSource().forEachFeature(function(f) {
+    layerline.getSource().forEachFeature(function(f) {
         var featureClone = f.clone();
         featureWkt = wkt.writeFeature(featureClone);
 
@@ -93,5 +90,5 @@ function generateWkt() {
         unionFeatures.push(modifiedWkt);
     });
 
-    layer.getSource().getFeatures().length ? $('#wkt').text('MULTILINESTRING(' + unionFeatures + ')') : $('#wkt').text('');
+    layerline.getSource().getFeatures().length ? $('#wkt').text('MULTILINESTRING(' + unionFeatures + ')') : $('#wkt').text('');
 }

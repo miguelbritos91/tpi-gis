@@ -125,6 +125,12 @@ var clickEnMapa = function (evt) {
 //function para "cambiar" de interaction en function del value de los radios
 var seleccionarControl = function (el) {
     if (el.value == "consulta") {
+        $('#controlesLinea').addClass('d-none')
+        $('#controlesLinea').removeClass('d-block')
+        $('#controlesPoligono').addClass('d-none')
+        $('#controlesPoligono').removeClass('d-block')
+        $('#controlesPunto').addClass('d-none')
+        $('#controlesPunto').removeClass('d-block')
         //agrego la interaccion del dragbox
         //la cual tiene precedencia sobre las otras
         map.addInteraction(selectInteraction);
@@ -138,6 +144,12 @@ var seleccionarControl = function (el) {
         optMedida.classList.remove('d-block')
         optMedida.classList.add('d-none')
     } else if (el.value == "navegacion") {
+        $('#controlesLinea').addClass('d-none')
+        $('#controlesLinea').removeClass('d-block')
+        $('#controlesPoligono').addClass('d-none')
+        $('#controlesPoligono').removeClass('d-block')
+        $('#controlesPunto').addClass('d-none')
+        $('#controlesPunto').removeClass('d-block')
         //la remuevo...
         map.removeInteraction(selectInteraction);
         map.removeInteraction(pointDraw)
@@ -160,18 +172,49 @@ var seleccionarControl = function (el) {
 var tipoDraw = function(t){
     if(t.value == 'punto'){
         map.removeInteraction(lineDraw);
+        map.removeInteraction(polygonDraw);
+        map.removeInteraction(select)
         map.addInteraction(pointDraw);
+        $('#controlesPunto').addClass('d-block')
+        $('#controlesPunto').removeClass('d-none')
         $('#controlesLinea').addClass('d-none')
         $('#controlesLinea').removeClass('d-block')
+        $('#controlesPoligono').addClass('d-none')
+        $('#controlesPoligono').removeClass('d-block')
     }else if(t.value == 'linea'){
         map.removeInteraction(pointDraw);
-        clearCustomInteractions();
+        map.removeInteraction(polygonDraw);
         map.addInteraction(lineDraw);
         lineDraw.on('drawend', function(e) {
-			generateWkt();
+			generateWktLine();
         });
         $('#controlesLinea').addClass('d-block')
         $('#controlesLinea').removeClass('d-none')
+        $('#controlesPunto').addClass('d-none')
+        $('#controlesPunto').removeClass('d-block')
+        $('#controlesPoligono').addClass('d-none')
+        $('#controlesPoligono').removeClass('d-block')
+    }else if(t.value == 'poligono'){
+        map.removeInteraction(pointDraw);
+        map.removeInteraction(lineDraw);
+        map.addInteraction(polygonDraw);
+        polygonDraw.on('drawend', function(e) {
+            generateWktPolygon();
+        });
+        $('#controlesPoligono').addClass('d-block')
+        $('#controlesPoligono').removeClass('d-none')
+        $('#controlesLinea').addClass('d-none')
+        $('#controlesLinea').removeClass('d-block')
+        $('#controlesPunto').addClass('d-none')
+        $('#controlesPunto').removeClass('d-block')
+    }else if (t.value == "null"){
+        map.removeInteraction(pointDraw);
+        map.removeInteraction(lineDraw);
+        map.removeInteraction(polygonDraw);
+        $('#controlesLinea').addClass('d-none')
+        $('#controlesLinea').removeClass('d-block')
+        $('#controlesPunto').addClass('d-none')
+        $('#controlesPunto').removeClass('d-block')
     }
     console.log(t.value)
 };
