@@ -79,34 +79,44 @@
                                     <input type="radio" name="controles" id="controles_consulta" value="consulta"
                                         onchange="seleccionarControl(this)"> <label for="controles_consulta">
                                         Consulta</label><br />
-                                    <input type="radio" name="controles" id="controles_medida" value="medida"
-                                        onchange="seleccionarControl(this)"> <label for="controles_medida">
+                                    <input type="radio" name="controles" id="controles_grafico" value="grafico"
+                                        onchange="seleccionarControl(this)"> <label for="controles_grafico">
                                         Dibujar</label><br />
-                                    <!-- selecciona el tipo de mensura -->
-                                    <select id="type" class="d-none form-control" onchange="tipoDraw(this)">
-                                        <option value="null">Select</option>
-                                        <option value="punto">Punto</option>
-                                        <option value="linea">Linea</option>
-                                        <option value="poligono">Poligono</option>
-                                    </select>
-                                    <div class="row d-none" id="controlesLinea">
-                                        <div class="col-12 text-center">
-                                            <button class="btn btn-primary m-1" id="editLine" onclick="editLine()">Editar Linea</button>
-                                            <button class="btn btn-danger m-1" id="eraseLine" onclick="eraseLine()">Borrar Linea</button>
-                                        </div>
-                                    </div>
-                                    <div class="row d-none" id="controlesPoligono">
-                                        <div class="col-12 text-center">
-                                            <button class="btn btn-primary m-1" id="editPolygon" onclick="editPolygon()">Editar Poligono</button>
-                                            <button class="btn btn-danger m-1" id="erasePolygon" onclick="erasePolygon()">Borrar Poligono</button>
-                                        </div>
-                                    </div>
-                                    <div class="row d-none" id="controlesPunto">
-                                        <div class="col-12 text-center">
-                                            <button class="btn btn-primary m-1" id="editPoint" onclick="editPoint()">Editar Punto</button>
-                                            <button class="btn btn-danger m-1" id="erasePoint" onclick="erasePoint()">Borrar Punto</button>
-                                        </div>
-                                    </div>
+                                        <!-- selecciona el tipo de grafico -->
+                                        <select id="type" class="d-none form-control" onchange="tipoDraw(this)">
+                                            <option value="null">Select</option>
+                                            <option value="punto">Punto</option>
+                                            <option value="linea">Linea</option>
+                                            <option value="poligono">Poligono</option>
+                                        </select>
+                                            <div class="row" id="accionesGrafico">
+                                                <div class="row d-none" id="controlesLinea">
+                                                    <div class="col-12 text-center">
+                                                        <button class="btn btn-primary m-1" id="editLine" onclick="editLine()">Editar Linea</button>
+                                                        <button class="btn btn-danger m-1" id="eraseLine" onclick="eraseLine()">Borrar Linea</button>
+                                                    </div>
+                                                </div>
+                                                <div class="row d-none" id="controlesPoligono">
+                                                    <div class="col-12 text-center">
+                                                        <button class="btn btn-primary m-1" id="editPolygon" onclick="editPolygon()">Editar Poligono</button>
+                                                        <button class="btn btn-danger m-1" id="erasePolygon" onclick="erasePolygon()">Borrar Poligono</button>
+                                                    </div>
+                                                </div>
+                                                <div class="row d-none" id="controlesPunto">
+                                                    <div class="col-12 text-center">
+                                                        <button class="btn btn-primary m-1" id="editPoint" onclick="editPoint()">Editar Punto</button>
+                                                        <button class="btn btn-danger m-1" id="erasePoint" onclick="erasePoint()">Borrar Punto</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                    <input type="radio" name="controles" id="controles_medida" value="medida"
+                                    onchange="seleccionarControl(this)"> <label for="controles_medida">
+                                    Medir</label><br />
+                                        <!-- Selecciona el tipo de Medida -->
+                                        <select name="medida" id="typeMeasure" class="d-none form-control" onchange="tipoMeasure(this)">
+                                            <option value="length">Distancia</option>
+                                            <option value="area">Area</option>
+                                        </select>
                                 </div>
                             </div>
                         </div>
@@ -128,6 +138,7 @@
     <script src="pointDraw.js"></script>
     <script src="lineDraw.js"></script>
     <script src="polygonDraw.js"></script>
+    <script src="measure.js"></script>
 </body>
 
 </html>

@@ -41,8 +41,8 @@ var map = new ol.Map({
                 url: 'http://wms.ign.gob.ar/geoserver/wms',
                 params: {
                     LAYERS: 'capabaseargenmap',
-                    VERSION: '1.1.1'
-                }
+                    VERSION: '1.3.0'
+                },
             })
         }),
         //listado de capas WMS
@@ -53,10 +53,10 @@ var map = new ol.Map({
         //vectorLayer
     ],
     view: new ol.View({
-        projection: 'EPSG:4326',
-        center: [-59, -27.5],
+        projection: 'EPSG:3857',
+        center: [-7279251.077654, -4461476.466949], //EPSG:3857
+        //center: [-59, -27.5], //EPSG:4326
         zoom: 4
-
     })
 });
 
@@ -125,6 +125,7 @@ var clickEnMapa = function (evt) {
 //function para "cambiar" de interaction en function del value de los radios
 var seleccionarControl = function (el) {
     if (el.value == "consulta") {
+        endMedir()
         $('#controlesLinea').addClass('d-none')
         $('#controlesLinea').removeClass('d-block')
         $('#controlesPoligono').addClass('d-none')
@@ -144,6 +145,7 @@ var seleccionarControl = function (el) {
         optMedida.classList.remove('d-block')
         optMedida.classList.add('d-none')
     } else if (el.value == "navegacion") {
+        endMedir()
         $('#controlesLinea').addClass('d-none')
         $('#controlesLinea').removeClass('d-block')
         $('#controlesPoligono').addClass('d-none')
@@ -159,11 +161,18 @@ var seleccionarControl = function (el) {
         let optMedida = document.getElementById("type")
         optMedida.classList.remove('d-block')
         optMedida.classList.add('d-none')
+    } else if (el.value == "grafico") {
+        //la remuevo...
+        endMedir()
+        map.removeInteraction(selectInteraction);
+        var optGrafico = document.getElementById("type")
+        optGrafico.classList.add('d-block')
     } else if (el.value == "medida") {
         //la remuevo...
         map.removeInteraction(selectInteraction);
-        var optMedida = document.getElementById("type")
+        var optMedida = document.getElementById("typeMeasure")
         optMedida.classList.add('d-block')
+        medir()
     }
     //muestro por consola el valor
     console.log(el.value);
@@ -218,6 +227,14 @@ var tipoDraw = function(t){
     }
     console.log(t.value)
 };
+
+var tipoMeasure = function(t){
+    if(t.value == 'distance'){
+        console.log('distancias')
+    }else if(t.value == 'area'){
+        console.log('area')
+    }
+}
 
 //visibilidad de las capas
 

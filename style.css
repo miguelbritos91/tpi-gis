@@ -31,7 +31,7 @@
     font-weight: bold;
   }
   .ol-tooltip-static {
-    background-color: #ffcc33;
+    background-color: #36b5b0;
     color: black;
     border: 1px solid white;
   }
@@ -47,7 +47,7 @@
     left: 50%;
   }
   .ol-tooltip-static:before {
-    border-top-color: #ffcc33;
+    border-top-color: #36b5b0;
   }
 
   #wkt{
