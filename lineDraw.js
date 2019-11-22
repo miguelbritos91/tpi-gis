@@ -3,7 +3,13 @@ var sourceline = new ol.source.Vector();
 var layerline = new ol.layer.Vector({
     title: "Multilineas",
     visible: true,
-    source: sourceline
+    source: sourceline,
+    style: new ol.style.Style({
+        stroke: new ol.style.Stroke({
+            color: '#3e64ff',
+            width: 3
+        }),
+    })
 });
 
 map.addLayer(layerline);
