@@ -49,16 +49,16 @@ function erasePoint() {
     console.log('Borrar Punto');
     map.removeInteraction(pointDraw);
     map.removeInteraction(modify);
-    map.addInteraction(select);
-
+    map.removeInteraction(select);
+    map.addInteraction();
     // erase.getFeatures().on('change:length', function(e) {
     //     if(e.target.getArray().length !== 0) {
     //         layer.getSource().removeFeature(e.target.item(0));
     //         generateWkt();
     //     }
     // });
-
-    // return false;
+    sourcePoint.clear()
+    return false;
 };
 
 pointDraw.on('drawend', function(e){
