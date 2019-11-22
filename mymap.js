@@ -63,7 +63,6 @@ var map = new ol.Map({
 
 //function que va a realizar la peticion de la consulta
 var consultar = function (coordinate) {
-
     console.log(coordinate);
     if (coordinate.length == 2) {
         //es un punto [lon,lat]
@@ -77,7 +76,7 @@ var consultar = function (coordinate) {
         wkt += coordinate[0][0][0] + ' ' + coordinate[0][0][1] + '))'
     }
     console.log(wkt);
-    // window.open('consulta.php?wkt=' + wkt);
+    window.open('miconsulta.php?wkt=' + wkt);
     return;
 
     // jQuery.ajax({
@@ -109,15 +108,22 @@ var selectInteraction = new ol.interaction.DragBox({
 selectInteraction.on('boxend', function (evt) {
     //this: referencia al selectInteraction
     console.log('boxend', this.getGeometry().getCoordinates());
-    consultar(selectInteraction.getGeometry().getCoordinates());
-
+    var consultaPolygon=this.getGeometry().getCoordinates();
+    for (let i = 0; i < consultaPolygon[0].length; i++) {
+        consultaPolygon[0][i]=ol.proj.transform(consultaPolygon[0][i], 'EPSG:3857', 'EPSG:4326')
+    }
+    console.log('epsg:4326', consultaPolygon)
+    //consultar(selectInteraction.getGeometry().getCoordinates());
+    consultar(consultaPolygon);
 });
 
 //funcion para el evento click en el mapa
 var clickEnMapa = function (evt) {
     //muestro por consola las coordenadas del evento
     console.log('click', evt.coordinate);
-    consultar(evt.coordinate);
+    console.log('epsg:4326', ol.proj.transform(evt.coordinate, 'EPSG:3857', 'EPSG:4326'))
+    //consultar(evt.coordinate);
+    consultar(ol.proj.transform(evt.coordinate, 'EPSG:3857', 'EPSG:4326'))
 };
 
 
