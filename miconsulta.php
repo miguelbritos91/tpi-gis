@@ -3,7 +3,7 @@ header('Content-type: text/html; charset=utf-8;');
 $wkt =  $_GET['wkt'];
 
 
-$link= pg_connect("host=192.168.0.5 user=user password=user dbname=TpiServer");
+$link= pg_connect("host=localhost user=user password=user dbname=TpiServer");
 
 $query=<<<EOD
 SELECT * FROM red_vial WHERE 
@@ -15,7 +15,12 @@ EOD;
 
 $result = pg_query($query);
 
-$arrayResult = pg_fetch_array($result);
+while ($row = pg_fetch_row($result)) { 
+        $arrayResult[] = $row;
+}
+
+// $arrayResult = pg_fetch_array($result);
+
 echo json_encode($arrayResult);
 
 ?>

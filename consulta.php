@@ -2,7 +2,7 @@
 
 header('Content-type: text/html; charset=utf-8;');
 $wkt =  $_GET['wkt'];
-
+$capas = $_GET['capas_activas'];
 
 $link= pg_connect("host=localhost user=user password=user dbname=TpiServer");
 

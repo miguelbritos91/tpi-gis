@@ -1,3 +1,5 @@
+var capas_activas = [];
+
 var provincias = new ol.layer.Image({
     title: "Provincias",
     //capa activada por defecto
@@ -76,7 +78,7 @@ var consultar = function (coordinate) {
         wkt += coordinate[0][0][0] + ' ' + coordinate[0][0][1] + '))'
     }
     console.log(wkt);
-    window.open('miconsulta.php?wkt=' + wkt);
+    //window.open('consulta.php?wkt=' + wkt+'&capas_activas='+capas_activas+'&nro_capas='+capas_activas.length);
     return;
 
     // jQuery.ajax({
@@ -254,6 +256,13 @@ checkbox1.addEventListener('change', function () {
     if (checked !== red_vial.getVisible()) {
         red_vial.setVisible(checked);
     }
+    if(checked){
+        capas_activas.push('red_vial')
+    }else{
+        let i = capas_activas.indexOf( 'red_vial' );
+        capas_activas.splice( i, 1 );
+    }
+    console.log(capas_activas)
 });
 
 //agrego un listener al evento change de la
@@ -288,6 +297,13 @@ checkbox3.addEventListener('change', function () {
     if (checked !== edif_religiosos.getVisible()) {
         edif_religiosos.setVisible(checked);
     }
+    if(checked){
+        capas_activas.push('edif_religiosos')
+    }else{
+        let i = capas_activas.indexOf( 'edif_religiosos' );
+        capas_activas.splice( i, 1 );
+    }
+    console.log(capas_activas)
 });
 
 edif_religiosos.on('change:visible', function () {
