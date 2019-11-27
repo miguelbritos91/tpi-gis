@@ -78,8 +78,7 @@ var consultar = function (coordinate) {
         wkt += coordinate[0][0][0] + ' ' + coordinate[0][0][1] + '))'
     }
     console.log(wkt);
-    //window.open('consulta.php?wkt=' + wkt+'&capas_activas='+capas_activas+'&nro_capas='+capas_activas.length);
-    return;
+    //window.open('miconsulta.php?wkt=' + wkt+'&capas_activas='+capas_activas+'&nro_capas='+capas_activas.length);
 
     // jQuery.ajax({
     //     url: 'consulta.php',
@@ -92,8 +91,24 @@ var consultar = function (coordinate) {
     //     }
     // });
 
+    let data = new FormData()
+    data.append("wkt",wkt)
+    data.append("capas_activas",capas_activas)
+    fetch('miconsulta.php',{
+        method: 'POST',
+        body: data
+    })
+    .then(function(res){
+        return res.json()
+    })
+    .then(data=>{
+        console.log(data)
+    })
+    .catch(error=>{
+        console.log(error)
+    })
 
-
+    return;
 };
 
 
