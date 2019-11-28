@@ -64,7 +64,7 @@ var map = new ol.Map({
 
 
 //function que va a realizar la peticion de la consulta
-var consultar = function (coordinate) {
+var consultar = async function (coordinate) {
     console.log(coordinate);
     if (coordinate.length == 2) {
         //es un punto [lon,lat]
@@ -77,35 +77,18 @@ var consultar = function (coordinate) {
         }
         wkt += coordinate[0][0][0] + ' ' + coordinate[0][0][1] + '))'
     }
-    console.log(wkt);
-    //window.open('miconsulta.php?wkt=' + wkt+'&capas_activas='+capas_activas+'&nro_capas='+capas_activas.length);
-
-    // jQuery.ajax({
-    //     url: 'consulta.php',
-    //     method: 'GET',
-    //     data: {
-    //         wkt: wkt
-    //     },
-    //     success: function (data) {
-    //         console.log(data);
-    //     }
-    // });
-
-    let data = new FormData()
-    data.append("wkt",wkt)
-    data.append("capas_activas",capas_activas)
-    fetch('miconsulta.php',{
-        method: 'POST',
-        body: data
+    //console.log(wkt);
+    let data={
+        "wkt": wkt,
+        "capas_activas":capas_activas
+    }
+    await axios.post('miconsulta.php',data)
+    .then(resp=>{
+        resultadoConsulta = resp.data
+        mostrarConsulta()
     })
-    .then(function(res){
-        return res.json()
-    })
-    .then(data=>{
-        console.log(data)
-    })
-    .catch(error=>{
-        console.log(error)
+    .catch(e=>{
+        console.log(e)
     })
 
     return;
