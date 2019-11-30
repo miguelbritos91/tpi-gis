@@ -72,3 +72,11 @@
   overflow-y: scroll;
   background: #ffffff;
 }
+
+#response{
+  position: absolute;
+  top: 70px;
+  left: 25vw;
+  width: 50vw;
+  z-index: 1;
+}

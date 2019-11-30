@@ -79,3 +79,84 @@ function generateWktPolygon() {
 
     layerPolygon.getSource().getFeatures().length ? $('#wkt').text('MULTIPOLYGON(' + unionFeatures + ')') : $('#wkt').text('');
 }
+
+
+function guardarPoligono(name,description){
+    //console.log('guardar linea')
+    let conjuntoPoligono= new ol.Feature();
+    let wktPoly = 'MULTIPOLYGON('
+    conjuntoPoligono = layerPolygon.getSource().getFeatures();
+
+    for (let i = 0; i < conjuntoPoligono.length; i++) {
+        wktPoly +='(('
+        //console.log(conjuntoLineas[i].values_['geometry'].flatCoordinates)        
+        let coord = conjuntoPoligono[i].values_['geometry'].flatCoordinates
+        for (let j = 0; j < coord.length; j=j+2) {
+            let coordxy =[coord[j],coord[j+1]]
+            coordxy=ol.proj.transform(coordxy,'EPSG:3857','EPSG:4326')
+            //console.log(coordxy)
+            if((j+2)===coord.length){
+                wktPoly += ''+coordxy[0]+' '+coordxy[1]+''
+            }else{
+                wktPoly += ''+coordxy[0]+' '+coordxy[1]+','
+            }
+        }
+        if((i+1)===conjuntoPoligono.length){
+            wktPoly+='))'
+        }else{
+            wktPoly+=')),'
+        }   
+    }
+    wktPoly+=')'
+    console.log(wktPoly)
+    let data={
+        "name":name,
+        "description":description,
+        "wkt":wktPoly,
+        "type":'polygon'
+    }
+
+    axios.post('insert.php',data)
+    .then(resp=>{
+        console.log(resp.data)
+        let response=document.getElementById('response')
+        if(!resp.data.error){
+            response.innerHTML+=`
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        ${resp.data.message}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                `
+            response.classList.add('d-block')
+            response.classList.remove('d-none')
+        }else{
+            response.innerHTML+=`
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        ${resp.data.message}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                `
+            response.classList.add('d-block')
+            response.classList.remove('d-none')
+        }
+    })
+    .catch(e=>{
+        console.log(e)
+    })
+}
+
+let btnSaveGeomPoly=document.getElementById('btnSaveGeomPoly')
+btnSaveGeomPoly.addEventListener('click',()=>{
+    let nameGeomPoly=document.getElementById('nameGeomPoly')
+    let descriptionGeomPoly=document.getElementById('descriptionGeomPoly')
+    let name=nameGeomPoly.value
+    let description=descriptionGeomPoly.value
+    guardarPoligono(name,description)
+    sourcePolygon.clear()
+    nameGeomPoly.value=''
+    descriptionGeomPoly.value=''
+})

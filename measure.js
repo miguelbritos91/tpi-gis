@@ -269,7 +269,3 @@ function medir(e) {
 
     addInteraction();
 }
-
-function endMedir() {
-    return false
-}

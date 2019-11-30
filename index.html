@@ -30,6 +30,7 @@
             <!-- DIV que contiene el mapa -->
             <div id="map"></div>
             <div id="wkt"></div>
+            <div class="d-none" id="response"></div>
         </div>
         <div class="row">
             <div class="pt-5 mx-auto col-md-12 col-lg-8">
@@ -51,36 +52,50 @@
                             <div class="card-header" id="headingOne">
                                 <h2 class="mb-0">
                                     <button class="btn btn-link" type="button" data-toggle="collapse"
-                                        data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                        <h3>Capas</h3>
+                                        data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                                        <h3 class="text-center">Capas de IGN</h3>
                                     </button>
                                 </h2>
                             </div>
 
-                        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
-                            data-parent="#accordionExample">
-                            <div class="card-body">
-                                <!-- checkboxes para activar/desactivar las capas -->
-                                <input type="checkbox" id="check_layer_1"><label for="check_layer_1"> Red
-                                    Vial</label><br />
-                                <!-- <input type="checkbox" id="check_layer_2"><label for="check_layer_2">
-                                    Provincias</label><br /> -->
-                                <input type="checkbox" id="check_layer_3"><label for="check_layer_3"> Edif
-                                    Religiosos</label><br />
+                            <div id="collapseOne" class="collapse" aria-labelledby="headingOne"
+                                data-parent="#accordionExample">
+                                <div class="card-body">
+                                    <!-- checkboxes para activar/desactivar las capas -->
+                                    <input type="checkbox" id="check_layer_1"><label for="check_layer_1"> Red Vial</label><br />
+                                    <input type="checkbox" id="check_layer_2"><label for="check_layer_2"> Edif Religiosos</label><br />
+                                </div>
                             </div>
-                        </div>
                         </div>
                         <div class="card">
                             <div class="card-header" id="headingTwo">
                                 <h2 class="mb-0">
-                                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
+                                    <button class="btn btn-link" type="button" data-toggle="collapse"
                                         data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                        <h3>Controles</h3>
+                                        <h3 class="text-center">Capas de Usuario</h3>
                                     </button>
                                 </h2>
                             </div>
-                            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo"
-                                data-parent="#accordionExample">
+
+                            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                                <div class="card-body">
+                                    <!-- checkboxes para activar/desactivar las capas -->
+                                    <input type="checkbox" id="check_layer_user_1"><label for="check_layer_user_1"> Puntos</label><br />
+                                    <input type="checkbox" id="check_layer_user_2"><label for="check_layer_user_2"> Lineas</label><br />
+                                    <input type="checkbox" id="check_layer_user_3"><label for="check_layer_user_3"> Poligonos</label><br />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header" id="headingThree">
+                                <h2 class="mb-0">
+                                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
+                                        data-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
+                                        <h3 class="text-center">Controles</h3>
+                                    </button>
+                                </h2>
+                            </div>
+                            <div id="collapseThree" class="collapse show" aria-labelledby="headingThree" data-parent="#accordionExample">
                                 <div class="card-body">
                                     <!-- Radio buttons para cambiar las interacciones activas -->
 
@@ -102,22 +117,25 @@
                                             <option value="poligono">Poligono</option>
                                         </select>
                                             <div class="row" id="accionesGrafico">
-                                                <div class="row d-none" id="controlesLinea">
-                                                    <div class="col-12 text-center">
-                                                        <button class="btn btn-primary m-1" id="editLine" onclick="editLine()">Editar Linea</button>
-                                                        <button class="btn btn-danger m-1" id="eraseLine" onclick="eraseLine()">Borrar Linea</button>
+                                                <div class="col-12">
+                                                    <div class="row d-none" id="controlesPunto">
+                                                        <div class="col-12 text-center">
+                                                            <button class="btn btn-success m-1" id="savePoint" data-toggle="modal" data-target="#formSaveGeomPoint">Guardar Punto</button>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="row d-none" id="controlesPoligono">
-                                                    <div class="col-12 text-center">
-                                                        <button class="btn btn-primary m-1" id="editPolygon" onclick="editPolygon()">Editar Poligono</button>
-                                                        <button class="btn btn-danger m-1" id="erasePolygon" onclick="erasePolygon()">Borrar Poligono</button>
+                                                    <div class="row d-none" id="controlesLinea">
+                                                        <div class="col-12 text-center">
+                                                            <button class="btn btn-primary m-1" id="editLine" onclick="editLine()">Editar Linea</button>
+                                                            <button class="btn btn-danger m-1" id="eraseLine" onclick="eraseLine()">Borrar Linea</button>
+                                                            <button class="btn btn-success m-1" id="saveLine"  data-toggle="modal" data-target="#formSaveGeomLine">Guardar Lineas</button>                                                        
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="row d-none" id="controlesPunto">
-                                                    <div class="col-12 text-center">
-                                                        <button class="btn btn-primary m-1" id="editPoint" onclick="editPoint()">Editar Punto</button>
-                                                        <button class="btn btn-danger m-1" id="erasePoint" onclick="erasePoint()">Borrar Punto</button>
+                                                    <div class="row d-none" id="controlesPoligono">
+                                                        <div class="col-12 text-center">
+                                                            <button class="btn btn-primary m-1" id="editPolygon" onclick="editPolygon()">Editar Poligono</button>
+                                                            <button class="btn btn-danger m-1" id="erasePolygon" onclick="erasePolygon()">Borrar Poligono</button>
+                                                            <button class="btn btn-success m-1" id="savePolygon" data-toggle="modal" data-target="#formSaveGeomPoly">Guardar Geometria</button>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -136,6 +154,95 @@
                 </div>
             </div>
         </div>
+
+        <!-- ventana modal formulario para Guardar Punto -->
+        <div class="modal fade" id="formSaveGeomPoint" tabindex="-1" role="dialog" aria-labelledby="formSaveGeomPointLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="formSaveGeomPointLabel">Guardar Punto</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form">
+                            <div class="form-group">
+                                <label for="nameGeomPoint">Nombre:</label>
+                                <input class="form-control" type="text" id="nameGeomPoint" placeholder="Nombre">
+                            </div>
+                            <div class="form-group">
+                                <label for="descriptionGeomPoint">Descripción:</label>
+                                <textarea class="form-control" id="descriptionGeomPoint" rows="10" placeholder="Agregar una descripción"></textarea>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" id="btnSaveGeomPoint">Guardar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- ventana modal formulario para Guardar Linea -->
+        <div class="modal fade" id="formSaveGeomLine" tabindex="-1" role="dialog" aria-labelledby="formSaveGeomLineLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="formSaveGeomLineLabel">Guardar Linea</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form">
+                            <div class="form-group">
+                                <label for="nameGeomLine">Nombre:</label>
+                                <input class="form-control" type="text" id="nameGeomLine" placeholder="Nombre">
+                            </div>
+                            <div class="form-group">
+                                <label for="descriptionGeomLine">Descripción:</label>
+                                <textarea class="form-control" id="descriptionGeomLine" rows="10" placeholder="Agregar una descripción"></textarea>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" id="btnSaveGeomLine">Guardar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- ventana modal formulario para Guardar Poligono -->
+        <div class="modal fade" id="formSaveGeomPoly" tabindex="-1" role="dialog" aria-labelledby="formSaveGeomPolyLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="formSaveGeomPolyLabel">Guardar Poligono</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form">
+                            <div class="form-group">
+                                <label for="nameGeomPoly">Nombre:</label>
+                                <input class="form-control" type="text" id="nameGeomPoly" placeholder="Nombre">
+                            </div>
+                            <div class="form-group">
+                                <label for="descriptionGeomPoly">Descripción:</label>
+                                <textarea class="form-control" id="descriptionGeomPoly" rows="10" placeholder="Agregar una descripción"></textarea>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" id="btnSaveGeomPoly">Guardar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
 
@@ -153,6 +260,7 @@
     <script src="polygonDraw.js"></script>
     <script src="measure.js"></script>
     <script src="mostrarConsulta.js"></script>
+    <script src="capas-de-usuario.js"></script>
 </body>
 
 </html>

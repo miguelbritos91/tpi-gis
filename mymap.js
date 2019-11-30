@@ -43,7 +43,7 @@ var map = new ol.Map({
                 url: 'http://wms.ign.gob.ar/geoserver/wms',
                 params: {
                     LAYERS: 'capabaseargenmap',
-                    VERSION: '1.3.0'
+                    VERSION: '1.1.1'
                 },
             })
         }),
@@ -117,7 +117,7 @@ selectInteraction.on('boxend', function (evt) {
     consultar(consultaPolygon);
 });
 
-//funcion para el evento click en el mapa
+// //funcion para el evento click en el mapa
 var clickEnMapa = function (evt) {
     //muestro por consola las coordenadas del evento
     console.log('click', evt.coordinate);
@@ -131,52 +131,61 @@ var clickEnMapa = function (evt) {
 //function para "cambiar" de interaction en function del value de los radios
 var seleccionarControl = function (el) {
     if (el.value == "consulta") {
-        endMedir()
+        $('#controlesPunto').addClass('d-none')
+        $('#controlesPunto').removeClass('d-block')
         $('#controlesLinea').addClass('d-none')
         $('#controlesLinea').removeClass('d-block')
         $('#controlesPoligono').addClass('d-none')
         $('#controlesPoligono').removeClass('d-block')
-        $('#controlesPunto').addClass('d-none')
-        $('#controlesPunto').removeClass('d-block')
         //agrego la interaccion del dragbox
         //la cual tiene precedencia sobre las otras
         map.addInteraction(selectInteraction);
         map.removeInteraction(pointDraw)
         map.removeInteraction(lineDraw)
-
+        map.removeInteraction(polygonDraw)
         //subscribo una funcion al evento click del mapa
         map.on('click', clickEnMapa);
 
-        let optMedida = document.getElementById("type")
-        optMedida.classList.remove('d-block')
-        optMedida.classList.add('d-none')
+        let optGrafico = document.getElementById("type")
+        optGrafico.classList.remove('d-block')
+        optGrafico.classList.add('d-none')
     } else if (el.value == "navegacion") {
-        endMedir()
+        $('#controlesPunto').addClass('d-none')
+        $('#controlesPunto').removeClass('d-block')
         $('#controlesLinea').addClass('d-none')
         $('#controlesLinea').removeClass('d-block')
         $('#controlesPoligono').addClass('d-none')
         $('#controlesPoligono').removeClass('d-block')
-        $('#controlesPunto').addClass('d-none')
-        $('#controlesPunto').removeClass('d-block')
         //la remuevo...
         map.removeInteraction(selectInteraction);
         map.removeInteraction(pointDraw)
         map.removeInteraction(lineDraw)
+        map.removeInteraction(polygonDraw)
+        map.on('click',false)
         //remueveo la subscripcion de la funcion al evento click del mapa
         //map.on('click', clickEnMapa);
-        let optMedida = document.getElementById("type")
-        optMedida.classList.remove('d-block')
-        optMedida.classList.add('d-none')
+        let optGrafico = document.getElementById("type")
+        optGrafico.classList.remove('d-block')
+        optGrafico.classList.add('d-none')
     } else if (el.value == "grafico") {
         //la remuevo...
-        endMedir()
         map.removeInteraction(selectInteraction);
-        var optGrafico = document.getElementById("type")
+        map.removeInteraction(pointDraw)
+        map.removeInteraction(lineDraw)
+        map.removeInteraction(polygonDraw)
+        let optGrafico = document.getElementById("type")
         optGrafico.classList.add('d-block')
+        optGrafico.classList.remove('d-none')
     } else if (el.value == "medida") {
+        let optGrafico = document.getElementById("type")
+        optGrafico.classList.remove('d-block')
+        optGrafico.classList.add('d-none')
         //la remuevo...
         map.removeInteraction(selectInteraction);
-        var optMedida = document.getElementById("typeMeasure")
+        map.removeInteraction(pointDraw)
+        map.removeInteraction(lineDraw)
+        map.removeInteraction(polygonDraw)
+        let optMedida = document.getElementById("typeMeasure")
         optMedida.classList.add('d-block')
         medir()
     }
@@ -203,10 +212,10 @@ var tipoDraw = function(t){
         lineDraw.on('drawend', function(e) {
 			generateWktLine();
         });
-        $('#controlesLinea').addClass('d-block')
-        $('#controlesLinea').removeClass('d-none')
         $('#controlesPunto').addClass('d-none')
         $('#controlesPunto').removeClass('d-block')
+        $('#controlesLinea').addClass('d-block')
+        $('#controlesLinea').removeClass('d-none')
         $('#controlesPoligono').addClass('d-none')
         $('#controlesPoligono').removeClass('d-block')
     }else if(t.value == 'poligono'){
@@ -216,20 +225,22 @@ var tipoDraw = function(t){
         polygonDraw.on('drawend', function(e) {
             generateWktPolygon();
         });
-        $('#controlesPoligono').addClass('d-block')
-        $('#controlesPoligono').removeClass('d-none')
-        $('#controlesLinea').addClass('d-none')
-        $('#controlesLinea').removeClass('d-block')
         $('#controlesPunto').addClass('d-none')
         $('#controlesPunto').removeClass('d-block')
+        $('#controlesLinea').addClass('d-none')
+        $('#controlesLinea').removeClass('d-block')
+        $('#controlesPoligono').addClass('d-block')
+        $('#controlesPoligono').removeClass('d-none')
     }else if (t.value == "null"){
         map.removeInteraction(pointDraw);
         map.removeInteraction(lineDraw);
         map.removeInteraction(polygonDraw);
-        $('#controlesLinea').addClass('d-none')
-        $('#controlesLinea').removeClass('d-block')
         $('#controlesPunto').addClass('d-none')
         $('#controlesPunto').removeClass('d-block')
+        $('#controlesLinea').addClass('d-none')
+        $('#controlesLinea').removeClass('d-block')
+        $('#controlesPoligono').addClass('d-none')
+        $('#controlesPoligono').removeClass('d-block')
     }
     console.log(t.value)
 };
@@ -242,7 +253,7 @@ var tipoMeasure = function(t){
     }
 }
 
-//visibilidad de las capas
+//visibilidad de las capas IGN
 
 
 //obtengo una referencia al elemento HTML
@@ -273,24 +284,8 @@ red_vial.on('change:visible', function () {
     }
 });
 
-
-// var checkbox2 = document.getElementById('check_layer_2');
-// checkbox2.addEventListener('change', function () {
-//     var checked = this.checked;
-//     if (checked !== provincias.getVisible()) {
-//         provincias.setVisible(checked);
-//     }
-// });
-
-// provincias.on('change:visible', function () {
-//     var visible = this.getVisible();
-//     if (visible !== checkbox2.checked) {
-//         checkbox2.checked = visible;
-//     }
-// });
-
-var checkbox3 = document.getElementById('check_layer_3');
-checkbox3.addEventListener('change', function () {
+var checkbox2 = document.getElementById('check_layer_2');
+checkbox2.addEventListener('change', function () {
     var checked = this.checked;
     if (checked !== edif_religiosos.getVisible()) {
         edif_religiosos.setVisible(checked);
@@ -306,7 +301,7 @@ checkbox3.addEventListener('change', function () {
 
 edif_religiosos.on('change:visible', function () {
     var visible = this.getVisible();
-    if (visible !== checkbox3.checked) {
+    if (visible !== checkbox2.checked) {
         checkbox3.checked = visible;
     }
 });
