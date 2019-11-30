@@ -1,0 +1,22 @@
+Para crear las tablas de las geometrias a guardar en BD ejecutar las siguientes lineas de SQL
+en el entorno de pgAdminIII
+----------------------------------------------------------------------------------------------
+
+create table user_point_layer(
+	gid SERIAL PRIMARY KEY,
+	name character varying(50),
+	description character varying(250),
+	geom geometry(POINT,4326)
+);
+create table user_linestring_layer(
+	gid SERIAL PRIMARY KEY,
+	name character varying(50),
+	description character varying(250),
+	geom geometry(MULTILINESTRING,4326)
+);
+create table user_polygon_layer(
+	gid SERIAL PRIMARY KEY,
+	name character varying(50),
+	description character varying(250),
+	geom geometry(MULTIPOLYGON,4326)
+);
