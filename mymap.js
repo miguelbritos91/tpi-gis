@@ -34,19 +34,31 @@ var edif_religiosos = new ol.layer.Image({
     })
 });
 
+var baseLayer = new ol.layer.Tile({
+    source: new ol.source.OSM()
+});
+
+var view = new ol.View({
+    projection: 'EPSG:3857',
+    center: [-7279251.077654, -4461476.466949], //EPSG:3857
+    //center: [-59, -27.5], //EPSG:4326
+    zoom: 4
+})
+
 var map = new ol.Map({
     target: 'map',
     layers: [
-        new ol.layer.Tile({
-            title: "Natural Earth Base Map",
-            source: new ol.source.TileWMS({
-                url: 'http://wms.ign.gob.ar/geoserver/wms',
-                params: {
-                    LAYERS: 'capabaseargenmap',
-                    VERSION: '1.1.1'
-                },
-            })
-        }),
+        // new ol.layer.Tile({
+        //     title: "Natural Earth Base Map",
+        //     source: new ol.source.TileWMS({
+        //         url: 'http://wms.ign.gob.ar/geoserver/wms',
+        //         params: {
+        //             LAYERS: 'capabaseargenmap',
+        //             VERSION: '1.1.1'
+        //         },
+        //     })
+        // }),
+        baseLayer,
         //listado de capas WMS
         provincias,
         red_vial,
@@ -54,12 +66,7 @@ var map = new ol.Map({
         //agregi ka caoa vectorial
         //vectorLayer
     ],
-    view: new ol.View({
-        projection: 'EPSG:3857',
-        center: [-7279251.077654, -4461476.466949], //EPSG:3857
-        //center: [-59, -27.5], //EPSG:4326
-        zoom: 4
-    })
+    view: view
 });
 
 

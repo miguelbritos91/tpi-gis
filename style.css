@@ -80,3 +80,12 @@
   width: 50vw;
   z-index: 1;
 }
+
+.icon{
+  width: 23px;
+  margin-top: -3px;
+}
+
+#menu-header{
+  margin-top: -10px;
+}

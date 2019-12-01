@@ -9,6 +9,8 @@
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!-- <script src="https://kit.fontawesome.com/777c78532f.js" crossorigin="anonymous"></script> -->
+    <script src="font-awesome.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -17,11 +19,18 @@
         <div class="row">
             <div class="col-12 bg-dark text-white" id="nav">
                 <div class="row mt-3">
-                    <div class="col-9">
-                        <h1 class="text-center">My Map</h1>
+                    <div class="col-sm-6 col-md-6 col-lg-9">
+                        <h1 class="text-left">My Map</h1>
                     </div>
-                    <div class="col-3 text center">
-                        <button class="btn btn-primary float-right mt-2" onClick="document.location.reload(true)">Reload</button>
+                    <div class="col-sm-6 col-md-6 col-lg-3 text center">
+                        <form class="inline-form" id="menu-header">
+                            <div class="form-group">
+                                <button type="button" class="btn btn-primary float-right mr-2" id="geolocation" title="Mi Ubicación"><img src="img/geolocation-white.svg" class="icon" alt=""></button>
+                            </div>
+                            <div class="form-group">
+                                <button type="button" class="btn btn-primary float-right mr-2" onClick="document.location.reload(true)" title="Refrescar"><i class="fas fa-sync"></i></button>
+                            </div>                  
+                        </form>      
                     </div>
                 </div>
             </div>
@@ -261,6 +270,7 @@
     <script src="measure.js"></script>
     <script src="mostrarConsulta.js"></script>
     <script src="capas-de-usuario.js"></script>
+    <script src="geolocation.js"></script>
 </body>
 
 </html>
