@@ -8,8 +8,6 @@ var layerPoint = new ol.layer.Vector({
 
 map.addLayer(layerPoint);
 
-var select = new ol.interaction.Select();
-var erase = new ol.interaction.Select();
 var wkt = new ol.format.WKT();
 
 var pointDraw = new ol.interaction.Draw({
@@ -17,15 +15,10 @@ var pointDraw = new ol.interaction.Draw({
     type: 'Point'
 });
 
-var modify = new ol.interaction.Modify({
-    features: select.getFeatures(),
-    deleteCondition: function(event) {
-        return ol.events.condition.shiftKeyOnly(event) &&
-        ol.events.condition.singleClick(event);
-    }
-});
-
-var pointCoord
+function erasePoint(){
+    sourcePoint.clear()
+    map.addInteraction(pointDraw)
+}
 
 pointDraw.on('drawend', function(e){
     var feature = e.feature;
@@ -34,10 +27,8 @@ pointDraw.on('drawend', function(e){
     var latLong = feature.getGeometry().getCoordinates();
     pointCoord=ol.proj.transform(latLong,'EPSG:3857','EPSG:4326')
     map.removeInteraction(pointDraw)
-    //console.log(pointCoord)
-    //console.log(latLong);
-    //console.log(ol.proj.transform(latLong,'EPSG:3857','EPSG:4326'))
-    //console.log(ol.coordinate.toStringHDMS(ol.proj.transform(latLong, 'EPSG:3857' ,'EPSG:4326')));
+    $('#wkt').addClass('d-block')
+    $('#wkt').removeClass('d-none')
     $('#wkt').text(ol.coordinate.toStringHDMS(ol.proj.transform(latLong, 'EPSG:3857', 'EPSG:4326')));
 });
 

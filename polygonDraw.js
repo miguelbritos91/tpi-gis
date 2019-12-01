@@ -76,8 +76,10 @@ function generateWktPolygon() {
 
         unionFeatures.push(modifiedWkt);
     });
-
+    
     layerPolygon.getSource().getFeatures().length ? $('#wkt').text('MULTIPOLYGON(' + unionFeatures + ')') : $('#wkt').text('');
+    $('#wkt').addClass('d-block')
+    $('#wkt').removeClass('d-none')
 }
 
 

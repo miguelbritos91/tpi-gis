@@ -5,6 +5,10 @@
 #nav{
     height: 10vh;
 }
+#app{
+  max-height: 100vh;
+  overflow: hidden;
+}
 #map-container{
   position: absolute;
   /* top: 0; */
@@ -29,6 +33,10 @@
 #panel {
     height: 90vh;
     width: 100%;
+}
+#listado_capas_ign{
+  max-height: 40vh;
+  overflow-y: scroll;
 }
 .ol-tooltip {
   position: relative;
@@ -69,8 +77,14 @@
   top: 10px;
   left: 60px;
   max-height: 70px;
+  max-width: 70vw;
   overflow-y: scroll;
-  background: #ffffff;
+  background: #e7e7e7;
+  color: red;
+  font-family: Arial, Helvetica, sans-serif;
+  padding: 5px;
+  border: 1px solid #bfc5c5;
+  border-radius: 10px;
 }
 
 #response{
@@ -84,8 +98,23 @@
 .icon{
   width: 23px;
   margin-top: -3px;
+  fill: white;
 }
 
 #menu-header{
   margin-top: -10px;
+}
+
+.check_capas,.controlRadio{
+  cursor: pointer;
+  text-align: justify;
+  font-family: Arial, Helvetica, sans-serif;
+  margin-left: 5px;
+  font-size: large;
+}
+.check_capas:hover{
+  color: red;
+}
+.controlRadio:hover{
+  color: red;
 }

@@ -95,6 +95,8 @@ function generateWktLine() {
     });
 
     layerline.getSource().getFeatures().length ? $('#wkt').text('MULTILINESTRING(' + unionFeatures + ')') : $('#wkt').text('');
+    $('#wkt').addClass('d-block')
+    $('#wkt').removeClass('d-none')
 }
 
 function guardarLinea(name,description){

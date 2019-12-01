@@ -11,28 +11,6 @@ var provincias = new ol.layer.Image({
         }
     })
 });
-var red_vial = new ol.layer.Image({
-    title: "Red Vial",
-    //capa desactivada por defecto
-    visible: false,
-    source: new ol.source.ImageWMS({
-        url: URL_OGC,
-        params: {
-            LAYERS: 'red_vial'
-        }
-    })
-});
-var edif_religiosos = new ol.layer.Image({
-    title: "Edif Religiosos",
-    //capa desactivada por defecto
-    visible: false,
-    source: new ol.source.ImageWMS({
-        url: URL_OGC,
-        params: {
-            LAYERS: 'edif_religiosos'
-        }
-    })
-});
 
 var baseLayer = new ol.layer.Tile({
     source: new ol.source.OSM()
@@ -60,11 +38,7 @@ var map = new ol.Map({
         // }),
         baseLayer,
         //listado de capas WMS
-        provincias,
-        red_vial,
-        edif_religiosos,
-        //agregi ka caoa vectorial
-        //vectorLayer
+        provincias
     ],
     view: view
 });
@@ -259,71 +233,3 @@ var tipoMeasure = function(t){
         console.log('area')
     }
 }
-
-//visibilidad de las capas IGN
-
-
-//obtengo una referencia al elemento HTML
-var checkbox1 = document.getElementById('check_layer_1');
-//agrego un listener al evento change del checkbox
-checkbox1.addEventListener('change', function () {
-    var checked = this.checked;
-    //seteo la propiedad "visible" de mi capa en función al valor
-    if (checked !== red_vial.getVisible()) {
-        red_vial.setVisible(checked);
-    }
-    if(checked){
-        capas_activas.push('red_vial')
-    }else{
-        let i = capas_activas.indexOf( 'red_vial' );
-        capas_activas.splice( i, 1 );
-    }
-    console.log(capas_activas)
-});
-
-//agrego un listener al evento change de la
-//propiedad "visible" de la capa
-red_vial.on('change:visible', function () {
-    var visible = this.getVisible();
-    //seteo el valor del checkbox
-    if (visible !== checkbox1.checked) {
-        checkbox1.checked = visible;
-    }
-});
-
-var checkbox2 = document.getElementById('check_layer_2');
-checkbox2.addEventListener('change', function () {
-    var checked = this.checked;
-    if (checked !== edif_religiosos.getVisible()) {
-        edif_religiosos.setVisible(checked);
-    }
-    if(checked){
-        capas_activas.push('edif_religiosos')
-    }else{
-        let i = capas_activas.indexOf( 'edif_religiosos' );
-        capas_activas.splice( i, 1 );
-    }
-    console.log(capas_activas)
-});
-
-edif_religiosos.on('change:visible', function () {
-    var visible = this.getVisible();
-    if (visible !== checkbox2.checked) {
-        checkbox3.checked = visible;
-    }
-});
-
-        // var checkbox4 = document.getElementById('check_layer_4');
-        // checkbox4.addEventListener('change', function () {
-        //     var checked = this.checked;
-        //     if (checked !== vectorLayer.getVisible()) {
-        //         vectorLayer.setVisible(checked);
-        //     }
-        // });
-
-        // vectorLayer.on('change:visible', function () {
-        //     var visible = this.getVisible();
-        //     if (visible !== checkbox4.checked) {
-        //         checkbox4.checked = visible;
-        //     }
-        // });

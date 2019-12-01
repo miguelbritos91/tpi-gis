@@ -9,7 +9,7 @@ $arrayResult=[];
 for ($i=0; $i < sizeof($capas); $i++) { 
     # code...
     $link= pg_connect("host=localhost user=user password=user dbname=TpiServer");
-    $query="SELECT * FROM $capas[$i] WHERE st_intersects(ST_geomfromtext('$wkt',4326),geom)";
+    $query="SELECT * FROM $capas[$i] WHERE st_intersects(ST_geomfromtext('$wkt',4326),geom) LIMIT 20";
     $result = pg_query($query);
     $elto=[
         "capa"=>$capas[$i],

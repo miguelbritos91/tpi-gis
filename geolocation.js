@@ -1,6 +1,6 @@
 let btnGeolocation = document.getElementById('geolocation')
 
-let geolocation = new ol.Geolocation({
+var geolocation = new ol.Geolocation({
     trackingOptions: {
         enableHighAccuracy: true
     },
@@ -31,6 +31,8 @@ async function milocation() {
     console.log('mi ubicacion')
     var coordGeoLocation = geolocation.position_
     var position = await ol.proj.transform(coordGeoLocation, 'EPSG:4326', 'EPSG:3857')
+    $('#wkt').addClass('d-block')
+    $('#wkt').removeClass('d-none')
     $('#wkt').text(ol.coordinate.toStringHDMS(ol.proj.transform(position, 'EPSG:3857', 'EPSG:4326')));
     positionFeature.setGeometry(new ol.geom.Point(position))
     map.addLayer(geoPoint)
@@ -42,5 +44,6 @@ async function milocation() {
 }
 
 btnGeolocation.addEventListener('click', () => {
+    map.removeLayer(geoPoint)
     milocation()
 })
