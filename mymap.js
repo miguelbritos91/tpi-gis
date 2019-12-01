@@ -12,8 +12,19 @@ var provincias = new ol.layer.Image({
     })
 });
 
-var baseLayer = new ol.layer.Tile({
+var baseLayerOSM = new ol.layer.Tile({
     source: new ol.source.OSM()
+});
+
+var baseLayerIGN = new ol.layer.Tile({
+    title: "Natural Earth Base Map",
+    source: new ol.source.TileWMS({
+        url: 'http://wms.ign.gob.ar/geoserver/wms',
+        params: {
+            LAYERS: 'capabaseargenmap',
+            VERSION: '1.1.1'
+        },
+    })
 });
 
 var view = new ol.View({
@@ -26,17 +37,8 @@ var view = new ol.View({
 var map = new ol.Map({
     target: 'map',
     layers: [
-        // new ol.layer.Tile({
-        //     title: "Natural Earth Base Map",
-        //     source: new ol.source.TileWMS({
-        //         url: 'http://wms.ign.gob.ar/geoserver/wms',
-        //         params: {
-        //             LAYERS: 'capabaseargenmap',
-        //             VERSION: '1.1.1'
-        //         },
-        //     })
-        // }),
-        baseLayer,
+        //baseLayerIGN,
+        baseLayerOSM,
         //listado de capas WMS
         provincias
     ],
