@@ -29,16 +29,16 @@ var baseLayerIGN = new ol.layer.Tile({
 
 var view = new ol.View({
     projection: 'EPSG:3857',
-    center: [-7279251.077654, -4461476.466949], //EPSG:3857
+    center: [-7279251.077654, -4861476.466949], //EPSG:3857
     //center: [-59, -27.5], //EPSG:4326
-    zoom: 4
+    zoom: 4.5
 })
 
 var map = new ol.Map({
     target: 'map',
     layers: [
-        //baseLayerIGN,
-        baseLayerOSM,
+        baseLayerIGN,
+        //baseLayerOSM,
         //listado de capas WMS
         provincias
     ],
