@@ -106,14 +106,18 @@ var clickEnMapa = function (evt) {
     console.log('click', evt.coordinate);
     console.log('epsg:4326', ol.proj.transform(evt.coordinate, 'EPSG:3857', 'EPSG:4326'))
     //consultar(evt.coordinate);
-    consultar(ol.proj.transform(evt.coordinate, 'EPSG:3857', 'EPSG:4326'))
+    if(controlActivo=='consulta'){
+        consultar(ol.proj.transform(evt.coordinate, 'EPSG:3857', 'EPSG:4326'))
+    }
 };
 
 
+var controlActivo = 'navegacion'
 
 //function para "cambiar" de interaction en function del value de los radios
 var seleccionarControl = function (el) {
     if (el.value == "consulta") {
+        controlActivo='consulta'
         $('#controlesPunto').addClass('d-none')
         $('#controlesPunto').removeClass('d-block')
         $('#controlesLinea').addClass('d-none')
@@ -133,6 +137,7 @@ var seleccionarControl = function (el) {
         optGrafico.classList.remove('d-block')
         optGrafico.classList.add('d-none')
     } else if (el.value == "navegacion") {
+        controlActivo='navegacion'
         $('#controlesPunto').addClass('d-none')
         $('#controlesPunto').removeClass('d-block')
         $('#controlesLinea').addClass('d-none')
@@ -150,6 +155,7 @@ var seleccionarControl = function (el) {
         optGrafico.classList.remove('d-block')
         optGrafico.classList.add('d-none')
     } else if (el.value == "grafico") {
+        controlActivo='grafico'
         //la remuevo...
         map.removeInteraction(selectInteraction);
         map.removeInteraction(pointDraw)
@@ -159,6 +165,7 @@ var seleccionarControl = function (el) {
         optGrafico.classList.add('d-block')
         optGrafico.classList.remove('d-none')
     } else if (el.value == "medida") {
+        controlActivo='medida'
         let optGrafico = document.getElementById("type")
         optGrafico.classList.remove('d-block')
         optGrafico.classList.add('d-none')
