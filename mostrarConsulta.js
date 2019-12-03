@@ -4,6 +4,7 @@ let bodyConsulta = document.getElementById('bodyConsulta')
 let cerrarConsulta = document.getElementById('cerrarConsulta')
 let panel = document.getElementById('panel')
 function mostrarConsulta(){
+    bodyConsulta.innerHTML=''
     if(resultadoConsulta.length === 0){
         // ocultamos los resultados de la consulta
         respConsulta.classList.remove('d-block')
