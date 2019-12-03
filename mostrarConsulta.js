@@ -120,5 +120,6 @@ function mostrarConsulta(){
 
 cerrarConsulta.addEventListener('click',()=>{
     resultadoConsulta=[]
+    bodyConsulta.innerHTML=''
     mostrarConsulta()
 })

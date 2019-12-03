@@ -144,7 +144,6 @@ var seleccionarControl = function (el) {
         map.removeInteraction(pointDraw)
         map.removeInteraction(lineDraw)
         map.removeInteraction(polygonDraw)
-        map.on('click',false)
         //remueveo la subscripcion de la funcion al evento click del mapa
         //map.on('click', clickEnMapa);
         let optGrafico = document.getElementById("type")
