@@ -34,6 +34,23 @@ var view = new ol.View({
     zoom: 4.5
 })
 
+control = new ol.control.ScaleLine({
+    units: 'metric',
+    bar: true,
+    steps: 4,
+    text: true,
+    minWidth: 140
+})
+
+
+escala = new ol.control.ScaleLine({
+    units: 'metric',
+    bar: true,
+    steps: 4,
+    text: true,
+    minWidth: 140
+})
+
 var map = new ol.Map({
     target: 'map',
     layers: [
@@ -42,7 +59,10 @@ var map = new ol.Map({
         //listado de capas WMS
         provincias
     ],
-    view: view
+    view: view,
+    controls: ol.control.defaults().extend([
+        escala
+    ])
 });
 
 
